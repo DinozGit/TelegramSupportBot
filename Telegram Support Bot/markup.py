@@ -61,8 +61,8 @@ def markup_cancel():
 
 def markup_admin():
     markup_admin = types.InlineKeyboardMarkup(row_width=1)
-    item1 = types.InlineKeyboardButton("✅ Добавить агента поддержки", callback_data='add_agent')
-    item2 = types.InlineKeyboardButton("🧑‍💻 Агенты поддержки", callback_data='all_agents:1')
+    item1 = types.InlineKeyboardButton("✅ Добавить Сотрудника поддержки", callback_data='add_agent')
+    item2 = types.InlineKeyboardButton("🧑‍💻 Сотрудники поддержки", callback_data='all_agents:1')
     item3 = types.InlineKeyboardButton("🔑 Одноразовые пароли", callback_data='all_passwords:1')
     item4 = types.InlineKeyboardButton("🎲 Сгенерировать одноразовые пароли", callback_data='generate_passwords')
     item5 = types.InlineKeyboardButton("⛔️ Выключить бота", callback_data='stop_bot:wait')

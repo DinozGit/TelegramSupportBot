@@ -14,7 +14,7 @@ bot = telebot.TeleBot(config.TOKEN, skip_pending=True)
 
 @bot.message_handler(commands=['start'])
 def start(message):
-    bot.send_message(message.chat.id, '👋🏻 Привет! Это бот для технической поддержки пользователей.\nЕсли у тебя есть какой-либо вопрос или проблема - нажми на кнопку <b>Написать запрос</b> и наши сотрудники в скором времени тебе ответят!', parse_mode='html', reply_markup=markup.markup_main())
+    bot.send_message(message.chat.id, '👋🏻 Привет! Это бот технической поддержки пользователей МФЦ по г.о. Домодедово.\nЕсли у Вас есть какой-либо вопрос или проблема - нажмите на кнопку <b>Написать запрос</b> и сотрудники ИТ отдела в скором времени тебе ответят!', parse_mode='html', reply_markup=markup.markup_main())
 
 
 @bot.message_handler(commands=['agent'])
@@ -22,7 +22,7 @@ def agent(message):
     user_id = message.from_user.id
 
     if core.check_agent_status(user_id) == True: 
-        bot.send_message(message.chat.id, '🔑 Вы авторизованы как Агент поддержки', parse_mode='html', reply_markup=markup.markup_agent())
+        bot.send_message(message.chat.id, '🔑 Вы авторизованы как Сотрудник поддержки', parse_mode='html', reply_markup=markup.markup_agent())
 
     else:
         take_password_message = bot.send_message(message.chat.id, '⚠️ Тебя нет в базе. Отправь одноразовый пароль доступа.', reply_markup=markup.markup_cancel())
@@ -83,7 +83,7 @@ def get_password_message(message):
         core.delete_password(password)
         core.add_agent(user_id)
 
-        bot.send_message(message.chat.id, '🔑 Вы авторизованы как Агент поддержки', parse_mode='html', reply_markup=markup.markup_main())
+        bot.send_message(message.chat.id, '🔑 Вы авторизованы как Сотрудник поддержки', parse_mode='html', reply_markup=markup.markup_main())
         bot.send_message(message.chat.id, 'Выберите раздел технической панели:', parse_mode='html', reply_markup=markup.markup_agent())
 
     else:
@@ -108,7 +108,7 @@ def get_agent_id_message(message):
 
     else:
         core.add_agent(agent_id)
-        bot.send_message(message.chat.id, '✅ Агент успешно добавлен.', reply_markup=markup.markup_main())
+        bot.send_message(message.chat.id, '✅ Сотрудник успешно добавлен.', reply_markup=markup.markup_main())
         bot.send_message(message.chat.id, 'Выберите раздел админ панели:', reply_markup=markup.markup_admin())
 
 
@@ -196,7 +196,7 @@ def get_additional_message(message, req_id, status):
                 if additional_message == 'None':
                     additional_message = ''
 
-                bot.send_message(user_id, f'⚠️ Получен новый ответ на ваш запрос ID {req_id}!\n\n🧑‍💻 Ответ агента поддержки:\n{additional_message}', reply_markup=markup.markup_main())
+                bot.send_message(user_id, f'⚠️ Получен новый ответ на ваш запрос ID {req_id}!\n\n🧑‍💻 Ответ Сотрудника поддержки:\n{additional_message}', reply_markup=markup.markup_main())
 
                 if type == 'photo':
                     bot.send_photo(user_id, photo=file_id, reply_markup=markup.markup_main())
@@ -357,9 +357,9 @@ def callback_inline(call):
         #Вернуться назад в панель агента
         elif call.data == 'back_agent':
             try:
-                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='🔑 Вы авторизованы как Агент поддержки', parse_mode='html', reply_markup=markup.markup_agent())
+                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='🔑 Вы авторизованы как Сотрудник поддержки', parse_mode='html', reply_markup=markup.markup_agent())
             except:
-                bot.send_message(call.message.chat.id, '🔑 Вы авторизованы как Агент поддержки', parse_mode='html', reply_markup=markup.markup_agent())
+                bot.send_message(call.message.chat.id, '🔑 Вы авторизованы как Сотрудник поддержки', parse_mode='html', reply_markup=markup.markup_agent())
 
             bot.answer_callback_query(call.id)
 
@@ -374,7 +374,7 @@ def callback_inline(call):
 
         #Добавить агента
         elif call.data == 'add_agent':
-            take_agent_id_message = bot.send_message(chat_id=call.message.chat.id, text='Чтобы добавить агента поддержки - введите его ID Telegram.', reply_markup=markup.markup_cancel())
+            take_agent_id_message = bot.send_message(chat_id=call.message.chat.id, text='Чтобы добавить Сотрудника поддержки - введите его ID Telegram.', reply_markup=markup.markup_cancel())
             bot.register_next_step_handler(take_agent_id_message, get_agent_id_message)
 
         #Все агенты
@@ -385,14 +385,14 @@ def callback_inline(call):
             len_agents = markup_and_value[1]
 
             if len_agents == 0:
-                bot.send_message(chat_id=call.message.chat.id, text='⚠️ Агенты не обнаружены.', reply_markup=markup.markup_main())
+                bot.send_message(chat_id=call.message.chat.id, text='⚠️ Сотрудники не обнаружены.', reply_markup=markup.markup_main())
                 bot.answer_callback_query(call.id)
                 return
 
             try:
-                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Нажмите на агента поддержки, чтобы удалить его', parse_mode='html', reply_markup=markup_agents)
+                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Нажмите на Сотрудника поддержки, чтобы удалить его', parse_mode='html', reply_markup=markup_agents)
             except:
-                bot.send_message(call.message.chat.id, 'Нажмите на агента поддержки, чтобы удалить его', parse_mode='html', reply_markup=markup_agents)
+                bot.send_message(call.message.chat.id, 'Нажмите на Сотрудника поддержки, чтобы удалить его', parse_mode='html', reply_markup=markup_agents)
 
             bot.answer_callback_query(call.id)
 
@@ -402,9 +402,9 @@ def callback_inline(call):
             core.delete_agent(agent_id)
 
             try:
-                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Нажмите на агента поддержки, чтобы удалить его', parse_mode='html', reply_markup=markup.markup_agents('1')[0])
+                bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text='Нажмите на Сотрудника поддержки, чтобы удалить его', parse_mode='html', reply_markup=markup.markup_agents('1')[0])
             except:
-                bot.send_message(call.message.chat.id, 'Нажмите на агента поддержки, чтобы удалить его', parse_mode='html', reply_markup=markup.markup_agents('1')[0])
+                bot.send_message(call.message.chat.id, 'Нажмите на Сотрудника поддержки, чтобы удалить его', parse_mode='html', reply_markup=markup.markup_agents('1')[0])
 
             bot.answer_callback_query(call.id)
 

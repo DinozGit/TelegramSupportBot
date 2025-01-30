@@ -54,7 +54,7 @@ support_db - имя базы данных
 На этом, настройка конфига завершена. Можете просто сохранить и закрыть этот файл.
 """
 
-MySQL = ['localhost', 'user', 'password', 'support_db'] 
-TOKEN = ''
-ADMIN_ID = ''
+MySQL = ['localhost', 'root', 'MySQL-ffbccd', 'support_db'] 
+TOKEN = '7382219151:AAEf3Gnlbhdck6pTvMjF4LLrCri-jzlcpNk'
+ADMIN_ID = '646111576'
 PROXY_URL = ''

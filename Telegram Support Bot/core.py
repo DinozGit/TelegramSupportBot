@@ -394,7 +394,7 @@ def get_request_data(req_id, callback):
             else:
                 text_status = '👤 Сообщение пользователя'
         elif user_status == 'agent':
-            text_status = '🧑‍💻 Агент поддержки'
+            text_status = '🧑‍💻 Сотрудник поддержки'
 
         #Бэкап для текста
         backup_text = text
